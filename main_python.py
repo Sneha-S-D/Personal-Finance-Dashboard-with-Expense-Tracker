@@ -10,7 +10,6 @@ from mlxtend.preprocessing import minmax_scaling
 from pandas.api.types import CategoricalDtype
 from scipy import stats
 import matplotlib.pyplot as plt
-external_stylesheets = ['https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', 'styles.css']
 
 # Database
 DATABASE = "expenses.db"
@@ -96,10 +95,7 @@ app.layout = html.Div(children=[
     
     ])
 
-# ... (existing code)
 
-# Callback for updating the pie_chart_combined
-# ... (existing code)
 
 # Callback for updating the pie_chart_category
 @app.callback(
@@ -116,7 +112,7 @@ def update_pie_chart_category(view_selector):
                        GROUP BY Category""")
         category_data = cur.fetchall()
     else:
-        # Handle other view types if needed
+        
         category_data = []
 
     labels = [category[0] for category in category_data]
@@ -137,7 +133,7 @@ def update_pie_chart_category(view_selector):
         }
     }
 
-# ... (other callbacks and main block)
+
 
 @app.callback(
     Output('graph_by_year', 'figure'),
@@ -163,10 +159,9 @@ def update_graph_by_year(view_selector):
             }
         }
     else:
-        # Handle other view types if needed
+        
         return {'data': [], 'layout': {}}
-# Callback for updating the graph_by_month
-# ... (existing code)
+
 
 # Callback for updating the graph_by_price
 @app.callback(
@@ -193,12 +188,10 @@ def update_graph_by_price(view_selector):
             }
         }
     else:
-        # Handle other view types if needed
+       
         return {'data': [], 'layout': {}}
 
-# ... (other callbacks and main block)
 
-# Callbacks
 @app.callback(
     Output('expense-table', 'children'),
     [Input('view-selector', 'value')]
