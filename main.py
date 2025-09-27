@@ -33,25 +33,19 @@ app.layout = html.Div([
         dcc.Tab(label='New Expense', children=[
             html.Div([
                 html.Label('Date of the Expense (dd-mm-yyyy):'),
-                dcc.Input(id='Date', type='text', value='', placeholder="dd-mm-yyyy", style={'width': '100%'}), html.Br(),
+                dcc.Input(id='Date', type='text', placeholder="dd-mm-yyyy", style={'width': '100%'}), html.Br(),
                 html.Label('Description of the Expense:'),
-                dcc.Input(id='description', type='text', value="", placeholder="What did you buy?", style={'width': '100%'}), html.Br(),
+                dcc.Input(id='description', type='text', placeholder="What did you buy?", style={'width': '100%'}), html.Br(),
                 html.Label('Category:'),
-                dcc.Input(id='CATEGORY', type='text', value="", placeholder='Category', style={'width': '100%'}), html.Br(),
+                dcc.Input(id='CATEGORY', type='text', placeholder='Category', style={'width': '100%'}), html.Br(),
                 html.Label('Price of the Expense:'),
-                dcc.Input(id='price', type="number", value="", placeholder="0.00", style={'width': '100%'}), html.Br(),
+                dcc.Input(id='price', type="number", placeholder="0.00", style={'width': '100%'}), html.Br(),
                 html.Button('Track', id='submit-button', n_clicks=0, style={'marginTop': '10px', 'width': '100%'})
             ], style={'maxWidth': '500px', 'margin': 'auto'})
         ]),
 
         dcc.Tab(label='View Expenses', children=[
             html.Div([
-                dcc.RadioItems(
-                    id='view-selector',
-                    options=[{'label': 'View all expenses', 'value': 'all'}],
-                    value='all',
-                    labelStyle={'display': 'inline-block', 'marginRight': '10px'}
-                ),
                 html.Div(id='expense-table', style={'overflowX': 'auto', 'marginTop': '20px'}),
                 html.Div(id='some-output-element', style={'marginTop': '20px'})
             ], style={'maxWidth': '900px', 'margin': 'auto'})
@@ -67,9 +61,9 @@ app.layout = html.Div([
 
 @app.callback(
     Output('pie_chart_category', 'figure'),
-    [Input('view-selector', 'value')]
+    [Input('submit-button', 'n_clicks')]
 )
-def update_pie_chart_category(view_selector):
+def update_pie_chart_category(n_clicks):
     conn = get_db()
     cur = conn.cursor()
     cur.execute("SELECT CATEGORY, COUNT(*) FROM expenses GROUP BY CATEGORY")
@@ -85,9 +79,9 @@ def update_pie_chart_category(view_selector):
 
 @app.callback(
     Output('expense-table', 'children'),
-    [Input('view-selector', 'value')]
+    [Input('submit-button', 'n_clicks')]
 )
-def update_expense_table(view_selector):
+def update_expense_table(n_clicks):
     conn = get_db()
     cur = conn.cursor()
     cur.execute("SELECT * FROM expenses ORDER BY Date DESC")
