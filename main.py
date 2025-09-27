@@ -33,10 +33,11 @@ server.config.from_mapping(
 
 server.teardown_appcontext(close_db)
 
-# Dash app initialization
+
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, server=server, external_stylesheets=external_stylesheets)
-#app = dash.Dash(__name__, server=server)
 app.title = 'Expense Tracker and Financial Dashboard'
+
 
 
 
@@ -97,7 +98,6 @@ app.layout = html.Div(children=[
 
 
 
-# Callback for updating the pie_chart_category
 @app.callback(
     Output('pie_chart_category', 'figure'),
     [Input('view-selector', 'value')]
@@ -163,7 +163,6 @@ def update_graph_by_year(view_selector):
         return {'data': [], 'layout': {}}
 
 
-# Callback for updating the graph_by_price
 @app.callback(
     Output('graph_by_price', 'figure'),
     [Input('view-selector', 'value')]
